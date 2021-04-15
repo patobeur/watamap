@@ -1,0 +1,35 @@
+canvas {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#connecting {
+    background-color: rgba(0, 0, 0, 0.815) !important;
+    color: black;
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+form#wataform {
+    height: 0px !important;
+    background-color: rgba(255, 255, 255, 0.726) !important;
+    color: black;
+    min-width: 50%;
+    min-height: 30%;
+    height: auto;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#wataform p {
+    height: 0;
+}
