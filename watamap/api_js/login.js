@@ -1,14 +1,26 @@
 "use strict";
 console.log("Appy.Name:" + WataConf.Appy.Name)
-addDomElement('DomIdParent', WataConf.DomTargetId, 'div', WataConf.DefLoging.logindivid)
-addDomElement('DomId', WataConf.DefLoging.logindivid, 'form', 'wataform')
-addImputElement('input', "wataform", "datalogin", 'text', true, WataConf.DefLoging.login)
-addImputElement('input', "wataform", "datapassword", 'password', true, WataConf.DefLoging.password)
+    // displaying login form
+    //          getElementsBytype,  targetname,                         elementtype,identity,                           elemdatas
+addDomElement('ElementByIdParent', WataConf.DomTargetId, 'div', WataConf.DefLoging.logindivid, false)
+addDomElement('ElementById', WataConf.DefLoging.logindivid, 'div', 'wataform', false)
+addDomElement('ElementById', 'wataform', 'H1', 't1', [WataConf.Dico.login.txt[0]])
+addDomElement('ElementById', 'wataform', 'H2', 't2', [WataConf.Dico.login.txt[1]])
+    // addDomElement('ElementById', 'wataform', 'button', 'b1', ['ppp', 'WataConf.Dico.login.txt[2]'])
+    // addDomElement('ElementById', 'wataform', 'button', 'b2', ['ppp', 'WataConf.Dico.login.txt[2]'])
+
+addImputElement('input', "wataform", "datalogin", 'text', false, WataConf.DefLoging.login)
+addImputElement('input', "wataform", "datapassword", 'password', false, WataConf.DefLoging.password)
 addImputElement('input', "wataform", "buttonlogin", 'button', false, 'Give a try !')
 
 document.getElementById('buttonlogin').addEventListener('click', (e) => {
     manageloginpasswordform()
 })
+document.getElementById('datalogin').placeholder = "Votre Mail !"
+    // $test = "onfocus=\"this.placeholder = ''\" 
+document.getElementById('datalogin').onfocus = "this.placeholder = ''"
+document.getElementById('datalogin').onblur = "this.placeholder = 'Votre Mail !'"
+
 
 function manageloginpasswordform() {
     let datlogin = document.getElementById('datalogin').value
@@ -16,7 +28,8 @@ function manageloginpasswordform() {
     let logok = datlogin.length > 0 && datlogin.length < 25 && datpassword.length > 3 && datpassword.length < 32 ? true : false
         // pas plus de test de sécu pour l'instant
     if (logok) {
-        // addScriptBy('TagName', 'head', WataConf.LoginJs[0])
+        console.log(logok)
+            // addScriptBy('ElementsByTagName', 'head', WataConf.LoginJs[0])
         getJsonDatas({ action: 'tryGetLogued', login: datlogin, password: datpassword })
     }
     console.log('logging: ' + ((logok) ? 'ok' : 'Ko !'))
@@ -45,12 +58,16 @@ function addImputButton(tag, targetname, indentity, inputtype) {
 }
 
 
-function addDomElement(getElementsBytype, targetname, elementtype, identity) {
+function addDomElement(getElementsBytype, targetname, elementtype, identity, elemdatas) {
     // console.log(document.getElementById(targetname).parentElement)
-    // addDomElement('DomId', WataConf.DomTargetId, 'div')
+    // addDomElement('ElementById', WataConf.DomTargetId, 'div')
     var newelement = document.createElement(elementtype)
     newelement.id = identity
-    if (getElementsBytype === 'TagName') { document.getElementsByTagName(targetname)[0].appendChild(newelement) } // multiple possible !!!!!!
-    else if (getElementsBytype === 'DomIdParent') { document.getElementById(targetname).parentElement.appendChild(newelement) } // only the One Id
-    else if (getElementsBytype === 'DomId') { document.getElementById(targetname).appendChild(newelement) } // only the One Id
+    if (elemdatas.length > 0) { newelement.textContent = elemdatas[0] }
+    if (elemdatas.length > 1) {
+        if (elemdatas[1]) { newelement.value = elemdatas[1] }
+    }
+    if (getElementsBytype === 'ElementsByTagName') { document.getElementsByTagName(targetname)[0].appendChild(newelement) } // multiple possible !!!!!!
+    else if (getElementsBytype === 'ElementByIdParent') { document.getElementById(targetname).parentElement.appendChild(newelement) } // only the One Id
+    else if (getElementsBytype === 'ElementById') { document.getElementById(targetname).appendChild(newelement) } // only the One Id
 }

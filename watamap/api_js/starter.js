@@ -1,5 +1,7 @@
 "use strict";
 let WataConf = []
+var CurDate = new Date();
+let curV = "?v=" + CurDate.getSeconds()
     // let DomTargetId = "watacarte" // overwrite WataConf.DomTargetId ???
 window.onload = function getconfig(e) {
     // get config json file before anything else
@@ -32,7 +34,6 @@ function nextToLoging(profildatas) {
         // remove script login from dom
     document.getElementById('login-js').remove()
 
-    // refresh tableau de bord
 
     // creat buttons for actions
 
@@ -71,7 +72,7 @@ function addNewcss() {
 function addCss(getElementsBytype, targetname, element) {
     var script = document.createElement('link');
     script.type = 'text/css'
-    script.href = element.url
+    script.href = element.url + curV
     script.rel = "stylesheet"
     script.id = element.id
     document.getElementsByTagName(targetname)[0].appendChild(script);
@@ -80,7 +81,7 @@ function addCss(getElementsBytype, targetname, element) {
 function addScriptBy(getElementsBytype, targetname, element) {
     var script = document.createElement('script')
     script.type = 'text/javascript'
-    script.src = element.url
+    script.src = element.url + curV
     script.id = element.id
     if (getElementsBytype === 'TagName') { document.getElementsByTagName(targetname)[0].appendChild(script) } // multiple possible !!!!!!
     else if (getElementsBytype === 'DomId') { document.getElementById(targetname).appendChild(script) } // only the One Id

@@ -58,5 +58,20 @@
             "width": "100%",
             "height": "100%"
         }
-    }]
+    }],
+    "Dico": {
+        "login": {
+            "txt": ["Watamap", "Pour voir les choses en 3D !"],
+            "but": [
+                ["Contact", "Contact", "Contact", "#"],
+                ["Github source", "Github source", "Github source", "#"]
+            ]
+        },
+        "canvas": {
+            "top": 0,
+            "left": 0,
+            "width": "100%",
+            "height": "100%"
+        }
+    }
 }

@@ -1,3 +1,19 @@
+@font-face {
+    font-family: "TitilliumWeb";
+    src: url("vendor/googlefonts/TitilliumWeb-Black.ttf") format("ttf"), url("/vendor/googlefonts/TitilliumWeb-Black.ttf") format("ttf");
+}
+
+* {
+    font-family: "Lato";
+}
+
+body {
+    background-image: url(/watamap/assets/img/fond-courbe-damier-vide-perspective_92172-90.jpg) !important;
+    background-size: cover;
+    background-position: center bottom;
+    background-color: none;
+}
+
 canvas {
     top: 0;
     left: 0;
@@ -16,20 +32,54 @@ canvas {
     align-items: center;
 }
 
-form#wataform {
-    height: 0px !important;
-    background-color: rgba(255, 255, 255, 0.726) !important;
-    color: black;
-    min-width: 50%;
-    min-height: 30%;
+#wataform {
+    background-color: rgba(255, 255, 255, 0.192) !important;
+    color: rgb(255, 255, 255);
+    /* min-width: 50%; */
     height: auto;
     border-radius: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 2rem 1rem;
 }
 
-#wataform p {
-    height: 0;
+#datalogin,
+#datapassword {
+    padding: .5rem;
+    border: 0;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+}
+
+#datalogin:focus,
+#datapassword:focus {
+    background-color: brown;
+    border-radius: 0;
+}
+
+#buttonlogin {
+    background-color: forestgreen;
+    padding: .5rem;
+    border: 0;
+    border-radius: .5rem;
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: white;
+}
+
+h1 {
+    padding: .5rem;
+    background-color: forestgreen;
+    border: 0;
+    border-radius: .5rem;
+    color: white;
+    font-size: 3rem;
+}
+
+h2 {
+    padding: 1rem .5rem .5rem .5rem;
+    border: 0;
 }
