@@ -15,20 +15,51 @@
         "ip": ""
     },
     "DefLoging": {
-        "login": "patobeur41@gmail.com",
+        "login": "patobeur42@gmail.com",
         "password": "toto"
     },
     "FConsole": {
         "active": true,
         "count": 0
     },
+    "Config": [{
+        "client_id": 1,
+        "map_id": 1,
+        "accred": 0
+    }],
     "LoginCss": [
         { "url": "assets/css/watamap.css", "id": "watamap-css" }
     ],
     "HeaderJs": [],
+    "Threejs": [
+        { "url": "vendor/three.min.js", "id": "three-js" },
+        { "url": "vendor/GLTFLoader.js", "id": "three-gltfloader" },
+        { "url": "vendor/OrbitControls.js", "id": "three-orbitcontrols" },
+        { "url": "vendor/threex.domevents.js", "id": "threex.domevents" },
+        { "url": "vendor/threex.linkify.js", "id": "threex.linkify" }
+    ],
     "BottomJs": [
         { "url": "api_js/login.js", "id": "login-js" }
     ],
+    "SceneJs": [
+        { "url": "api_js/ajax.js", "id": "ajax-js" },
+        { "url": "scenejs/definitions.js", "id": "definitions-js" },
+        { "url": "scenejs/scene.js", "id": "scene-js" },
+        { "url": "scenejs/main.js", "id": "main-js" }
+    ],
+    "scene": [{
+        "target": {
+            "width": "100%",
+            "height": "100%",
+            "background-color": "none"
+        },
+        "canvas": {
+            "top": 0,
+            "left": 0,
+            "width": "100%",
+            "height": "100%"
+        }
+    }],
     "Dico": {
         "login": {
             "txt": [

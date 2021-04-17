@@ -1,50 +1,125 @@
 "use strict";
-let WataConf = []
-var CurDate = new Date();
-let curV = "?v=" + CurDate.getSeconds()
-    // let DomTargetId = "watacarte" // overwrite WataConf.DomTargetId ???
+
+localStorage.appToken = false
+sessionStorage.appRoot = "watamap/"
+sessionStorage.curV = "?v=" + new Date().getSeconds()
+
+console.log(sessionStorage)
+
+
+// if (myStorage.Feun) { delete myStorage.Feun }
+// if (myStorage.WataConf) { delete myStorage.WataConf }
+// if (sessionStorage.WataConf) { delete sessionStorage.WataConf }
+// if (sessionStorage.Email) { delete sessionStorage.Email }
+if (sessionStorage.Wtf) { delete sessionStorage.Wtf }
+// if (myStorage.Email) { delete myStorage.Email }
+// if (myStorage.DefLoging) { delete myStorage.DefLoging }
+// console.log(myStorage)
+// console.log(mySession)
+
+let WataConf = [] // temporary conf waiting to be inserted in localStorage and/or sessionStorage
+
+
+
+
+// let DomTargetId = "watacarte" // overwrite WataConf.DomTargetId ???
 window.onload = function getconfig(e) {
     // get config json file before anything else
-    getJsonConfig("api_js/config.json")
+    // console.log(sessionStorage.WtF)
+    getJsonConfig(sessionStorage.appRoot + "api_js/config.json")
 }
 
 function getJsonConfig(jsonfile) {
-    // console.log('demande de config')
-    readTextFile(jsonfile, (textjson) => {
-        // console.log('Config ok !')
+    readTextFile(jsonfile + sessionStorage.curV, (textjson) => {
+        console.log('Config reçus !')
         WataConf = JSON.parse(textjson)
-        WataConf.Appy.apiUrl
-        startlogin()
+        if (WataConf) {
+            console.log('Fichier Conf OK ')
+            console.log('WataConf OK ')
+            console.log('sessionStorage.WtF json OK ')
+                // sessionStorage.WtF = textjson
+                // addsessionStorage(textjson)
+            startlogin()
+        } else { console.log('erreur de config !') }
     });
 }
 
 function startlogin() {
     addNewcss()
-    addscriptstoheader()
+        // addscriptstoheader()
     addscriptstobottom()
+        // from here only poped up scripts will run
+        // theoricaly !!!
+        // addScriptBy('DomId', 'fullpage', scripts[i])
+}
+
+function checkConnection(profildatas) {
+    if (profildatas) {
+        if (profildatas[0] === true) {
+            console.log('Vous êtes connecté(é) !')
+            console.log('mail stocké !')
+            WataConf.DefLoging.login = document.getElementById('datalogin').value
+            localStorage.Email = document.getElementById('datalogin').value
+            addsessionStorage(profildatas)
+            nextToLoging(profildatas)
+        } else {
+            console.log('Connecting people: erreur émise par le serveur !')
+        }
+    } else {
+        console.log('Vide ??? ou inconnue !')
+    }
+}
+
+// addSession('sessionStorage||localStorage')
+function addlocaStorage(datas) {
+    datas = JSON.parse(datas[1])[0]
+    Object.keys(datas).forEach((key) => {
+        localStorage[key] = datas[key]
+    });
+}
+
+function addsessionStorage(datas) {
+    datas = JSON.parse(datas[1])[0]
+    Object.keys(datas).forEach((key) => {
+        sessionStorage[key] = datas[key]
+    });
 }
 
 function nextToLoging(profildatas) {
 
+    // myStorage.Email = WataConf.DefLoging.login
     console.log(profildatas)
-        // clear the form values
-        // to do .......
-        // remove form from dom
-    document.getElementById(WataConf.DefLoging.logindivid).remove()
-        // remove script login from dom
-    document.getElementById('login-js').remove()
+    if (profildatas) {
+        // console.log(profildatas)
+        console.log('myStorage')
+        console.log(localStorage)
+        console.log('mySession')
+        console.log(sessionStorage)
+            // clear the form values
+            // to do .......
+            // remove form from dom
+        document.getElementById(WataConf.ConnectingDivId).remove()
+            // remove script login from dom
+        document.getElementById('login-js').remove()
+            // creat buttons for actions
+            // create selects inputs
+            // clear remove css
+    }
 
 
-    // creat buttons for actions
+}
 
-    // create selects inputs
-
-
-
-
-    // clear remove css
+// <link rel="preconnect" href="https://fonts.gstatic.com">
+// <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&display=swap">
 
 
+function addScriptBy(getElementsBytype, targetname, element) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = sessionStorage.appRoot + element.url + sessionStorage.curV
+    script.id = element.id
+    if (getElementsBytype === 'TagName') { document.getElementsByTagName(targetname)[0].appendChild(script) } // multiple possible !!!!!!
+    else if (getElementsBytype === 'DomId') { document.getElementById(targetname).appendChild(script) } // only the One Id
 }
 
 function addscriptstoheader() {
@@ -61,7 +136,7 @@ function addthisscriptstoheader() {
 
 function addscriptstobottom() {
     let scripts = WataConf.BottomJs
-    for (let i = 0; i < scripts.length; i++) { addScriptBy('DomId', 'fullpage', scripts[i]) }
+    for (let i = 0; i < scripts.length; i++) { addScriptBy('TagName', 'body', scripts[i]) }
 }
 
 function addNewcss() {
@@ -72,20 +147,12 @@ function addNewcss() {
 function addCss(getElementsBytype, targetname, element) {
     var script = document.createElement('link');
     script.type = 'text/css'
-    script.href = element.url + curV
+    script.href = sessionStorage.appRoot + element.url + sessionStorage.curV
     script.rel = "stylesheet"
     script.id = element.id
     document.getElementsByTagName(targetname)[0].appendChild(script);
 }
 
-function addScriptBy(getElementsBytype, targetname, element) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = element.url + curV
-    script.id = element.id
-    if (getElementsBytype === 'TagName') { document.getElementsByTagName(targetname)[0].appendChild(script) } // multiple possible !!!!!!
-    else if (getElementsBytype === 'DomId') { document.getElementById(targetname).appendChild(script) } // only the One Id
-}
 
 function addDomElement(getElementsBytype, targetname, elementtype, identity) {
     // console.log(document.getElementById(targetname).parentElement)
@@ -126,7 +193,7 @@ function clog(datas = false) {
 function getJsonDatas(query) {
     if (query) {
         getJson(
-            WataConf.Appy.apiUrl,
+            sessionStorage.appRoot + WataConf.Appy.apiUrl,
             JSON.stringify(query),
             (datas) => {
                 // console.log(datas)
@@ -146,7 +213,7 @@ function getJsonDatas(query) {
                         addComputersToScene(ResponsetoJson(datas));
                         break;
                     case 'tryGetLogued':
-                        nextToLoging(ResponsetoJson(datas))
+                        checkConnection(ResponsetoJson(datas))
                         break;
                     default:
                         console.log(`Sorry, mais nous n'avons plus de  ${query['action']}.`);
@@ -154,6 +221,7 @@ function getJsonDatas(query) {
             });
     }
 }
+
 
 function ResponsetoJson(string) {
     if (string) {
