@@ -1,3 +1,4 @@
+-- Base de données : `glpi`
 CREATE TABLE `glpi_computers` (
   `id` int(11) NOT NULL,
   `entities_id` int(11) NOT NULL DEFAULT 0,
