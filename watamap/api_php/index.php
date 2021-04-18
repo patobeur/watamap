@@ -1,18 +1,23 @@
 <?php
 	session_start();
-	if (!isset($_SESSION['token'])){$_SESSION['token'] = '0123456789--fernando--9876543210';}
+	
+	// token temporaire
+	if (!isset($_SESSION['WToken'])){$_SESSION['Wtoken'] = md5("WATOKEN".date('Y-m-d H:i:s'));}
+
     // demarrage du chrono dans STARTT
 	define('STARTT',$_SERVER['REQUEST_TIME_FLOAT']);
 
-	// define variables
+	// set variables
 	require('config.php');
-	// define variables
+	// set fonctions
 	require('fonctions.php');
 
-	spl_autoload_register('chargerClasse');
+ 	// Mounting Database Class
+    new importDatabase();
 
-    new importDatabase(); //! Mounting Database Class
+	// json file header
 	header('Content-Type: application/json');
 
+	// display db response
 	echo json_encode(importDatabase::get_dataFromTable());
 ?>

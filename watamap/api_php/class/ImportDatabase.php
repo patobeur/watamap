@@ -82,38 +82,44 @@ class ImportDatabase {
 		// ACTIONS POSSIBLES
 		$aaction = self::$_postedDatas->action;
 		if ($aaction==="getConfig"){
+			$besoins = "*";
 			self::$_choixBdd = 0;
 			self::$_sqlBind = ['client'=>1];
-			self::$_sqlrequest = "SELECT * FROM wat_clients"
-			." WHERE wat_clients.client_id = :client";
+			self::$_sqlrequest = "SELECT ".$besoins." FROM wat_clients"
+			." WHERE wat_clients.client_id = :client AND userStatus = 1";
+			
 		}
-		elseif ($aaction==="tryGetLogued"){
+		elseif ($aaction==="startActionLoggin"){
+			$besoins = "userip,userEmail,userStatus,lastconnect";
 			self::$_choixBdd = 0;
 			$table = self::$_sqlDatas[self::$_choixBdd]['DBtabs'][2]; // <---- alway 2 for user table
 			self::$_sqlBind = ['email'=>self::$_postedDatas->login];
-			self::$_sqlrequest = "SELECT * FROM ".$table
+			self::$_sqlrequest = "SELECT ".$besoins." FROM ".$table
 			." WHERE ".$table.".userEmail = :email AND ".$table.".userPass = '".md5(self::$_postedDatas->password)."'";
 		}
 		elseif ($aaction==="addGroupeToScene"){
+			$besoins = "*";
 			self::$_choixBdd = 0;
 			self::$_sqlBind = ['level'=>self::$_postedDatas->level,'map'=>self::$_postedDatas->map];
-			self::$_sqlrequest = "SELECT * FROM wat_items"
+			self::$_sqlrequest = "SELECT ".$besoins." FROM wat_items"
 			." LEFT JOIN wat_clients ON wat_clients.client_id = wat_items.id_client"
 			." LEFT JOIN wat_maps ON wat_maps.map_id = :map"
 			." LEFT JOIN wat_levels ON wat_levels.level_id = :level";
 		}
 		elseif ($aaction==="getMapListeByClientId"){
+			$besoins = "*";
 			self::$_choixBdd = 0;
 			self::$_sqlBind = ['client_id'=>self::$_postedDatas->client_id];
-			self::$_sqlrequest = "SELECT * FROM wat_maps"
+			self::$_sqlrequest = "SELECT ".$besoins." FROM wat_maps"
 			." LEFT JOIN wat_clients ON wat_clients.client_id = wat_maps.id_client"
 			." WHERE wat_clients.client_id = :client_id";
 		}
 		elseif ($aaction==="addComputersToScene"){
+			$besoins = "*";
 			self::$_choixBdd = 1;
 			$table = self::$_sqlDatas[self::$_choixBdd]['DBtabs'][1]; // <---- alway 2 for user table
 			// self::$_sqlBind = ['client_id'=>self::$_postedDatas->client_id];
-			self::$_sqlrequest = "SELECT * FROM ".$table;
+			self::$_sqlrequest = "SELECT ".$besoins." FROM ".$table;
 		}
 	}
 	public static function get_dataFromTable(){
@@ -141,9 +147,28 @@ class ImportDatabase {
 		}
 	}
 
+	private static function updateUserAccount($accountdatas=false){
+		if(self::$_DbConnect && $accountdatas){
+			try
+			{
+				$sql = "UPDATE wat_users SET token=?, lastconnect=?, userip=? WHERE userEmail=?";
+				$stmt= self::$_DbConnect->prepare($sql);
+				$stmt->execute([
+					$_SESSION['Wtoken'],
+					date('Y-m-d H:i:s'),
+					get_Ip(),
+					$accountdatas['userEmail']
+					]
+				);
+			}
+			catch(PDOException $e){
+				return false;
+			}
+		}
+	}
 	// test de lecture d'une table
 	private static function is_Import_Table(){
-		if (self::$_ImportActive && self::$_sqlrequest){
+		if (self::$_ImportActive && self::$_postedDatas && self::$_sqlrequest){
 			$idBdd = self::$_sqlDatas[self::$_choixBdd];
 			$table = $idBdd['DBtabs'][self::$_choixBdd];
 			$xcount = 0;
@@ -164,13 +189,18 @@ class ImportDatabase {
 				}
 				$firstImp->execute();
 				$allRows = $firstImp->fetchall(PDO::FETCH_ASSOC);
-				// $allRows[] = ["token"=>"123456789-fernando-987654321"];
 				if (count($allRows) > 0) {
-					return [
-						true,
-						json_encode($allRows),
-						$idBdd['getpos']
-					];
+					if(self::$_postedDatas){
+						if(self::$_postedDatas->action==="startActionLoggin"){
+							$allRows[0]['token'] = $_SESSION['Wtoken'];
+							self::updateUserAccount($allRows[0]);
+						}
+						return [
+							true,
+							json_encode($allRows),
+							$idBdd['getpos']
+						];
+					}
 				}
 				return [
 					false,

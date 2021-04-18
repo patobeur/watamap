@@ -10,6 +10,7 @@
 			die('la classe ?');
 		}
 	}
+	spl_autoload_register('chargerClasse');
 	// ---------------------------------------------------------------------------	
 	// DATES TEXTS & OTHER VALUES TOOLS ---------------------------------------------------------------
 	function get_diffDate($debut,$fin){

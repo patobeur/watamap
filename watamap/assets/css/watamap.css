@@ -25,6 +25,27 @@
     left: 0;
 }
 
+#actionscheck {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.815) !important;
+    color: white;
+    width: 200px;
+    height: content;
+    max-height: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    bottom: 10px;
+    left: 10px;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+#actionscheck * {
+    margin: 0;
+    padding: 0;
+}
+
 canvas {
     top: 0;
     left: 0;
@@ -70,7 +91,7 @@ canvas {
     color: white;
 }
 
-h1 {
+#wataform h1 {
     padding: .5rem;
     background-color: forestgreen;
     border: 0;
@@ -79,7 +100,7 @@ h1 {
     font-size: 3rem;
 }
 
-h2 {
+#wataform h2 {
     padding: 1rem .5rem .5rem .5rem;
     border: 0;
 }

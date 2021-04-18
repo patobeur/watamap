@@ -5,30 +5,16 @@
     "Appy": {
         "Name": "Watamap",
         "Version": 0.1,
-        "Items": ["login"],
+        "Items": "login",
         "apiUrl": "api_php/index.php"
     },
-    "User": {
-        "Name": "",
-        "Mail": "",
-        "Id": "",
-        "ip": ""
-    },
     "DefLoging": {
-        "login": "patobeur41@gmail.com",
-        "password": "toto"
+        "login": ""
     },
     "FConsole": {
         "active": true,
         "count": 0
     },
-    "LoginCss": [
-        { "url": "assets/css/watamap.css", "id": "watamap-css" }
-    ],
-    "HeaderJs": [],
-    "BottomJs": [
-        { "url": "api_js/login.js", "id": "login-js" }
-    ],
     "Dico": {
         "login": {
             "txt": [
