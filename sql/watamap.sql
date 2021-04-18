@@ -1,16 +1,51 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.0
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1
+-- Généré le : dim. 18 avr. 2021 à 22:11
+-- Version du serveur :  10.4.18-MariaDB
+-- Version de PHP : 7.3.27
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
 -- Base de données : `watamap`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `wat_clients`
+--
+
 CREATE TABLE `wat_clients` (
   `client_id` int(4) UNSIGNED NOT NULL,
   `client_name` varchar(255) NOT NULL,
   `id_client` int(4) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Déchargement des données de la table `wat_clients`
+--
+
 INSERT INTO `wat_clients` (`client_id`, `client_name`, `id_client`) VALUES
-(1, 'Mars', NULL),
-(2, 'Lune', NULL);
+(1, 'Mesland', NULL),
+(2, 'IMC', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `wat_items`
+--
 
 CREATE TABLE `wat_items` (
   `item_id` int(4) UNSIGNED NOT NULL,
@@ -27,6 +62,10 @@ CREATE TABLE `wat_items` (
   `id_level` int(4) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Déchargement des données de la table `wat_items`
+--
+
 INSERT INTO `wat_items` (`item_id`, `id_itemtype`, `item_name`, `id_parent`, `x`, `y`, `z`, `id_mat`, `size_ratio`, `id_client`, `id_map`, `id_level`) VALUES
 (1, 1, 'Mairie', 0, 0, 1, 1, 1, 1, 1, 1, 1),
 (2, 1, 'Maison1', 0, 1, 3, 1, 2, 1, 1, 1, 1),
@@ -34,14 +73,30 @@ INSERT INTO `wat_items` (`item_id`, `id_itemtype`, `item_name`, `id_parent`, `x`
 (4, 2, 'Armoire bleue', 0, -5, 1, -10, 0, 1, 1, 1, 1),
 (5, 2, 'Armoire jaune', 0, 5, 1, -5, 4, 1, 1, 1, 1);
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `wat_itemtypes`
+--
+
 CREATE TABLE `wat_itemtypes` (
   `itemtype_id` int(4) UNSIGNED NOT NULL,
   `itemtype_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Déchargement des données de la table `wat_itemtypes`
+--
+
 INSERT INTO `wat_itemtypes` (`itemtype_id`, `itemtype_name`) VALUES
 (1, 'batiment'),
 (2, 'armoire');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `wat_levels`
+--
 
 CREATE TABLE `wat_levels` (
   `level_id` int(4) UNSIGNED NOT NULL,
@@ -50,8 +105,18 @@ CREATE TABLE `wat_levels` (
   `level_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Déchargement des données de la table `wat_levels`
+--
+
 INSERT INTO `wat_levels` (`level_id`, `id_parent`, `id_map`, `level_name`) VALUES
 (1, NULL, 1, 'Couche1');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `wat_maps`
+--
 
 CREATE TABLE `wat_maps` (
   `map_id` int(4) UNSIGNED NOT NULL,
@@ -60,9 +125,19 @@ CREATE TABLE `wat_maps` (
   `map_name` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Déchargement des données de la table `wat_maps`
+--
+
 INSERT INTO `wat_maps` (`map_id`, `id_parent`, `id_client`, `map_name`) VALUES
-(1, NULL, 1, 'Cassiopea'),
-(2, NULL, 1, 'Sagitarius');
+(1, NULL, 1, 'paris'),
+(2, NULL, 1, 'mesland');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `wat_users`
+--
 
 CREATE TABLE `wat_users` (
   `user_id` int(10) UNSIGNED NOT NULL,
@@ -70,45 +145,99 @@ CREATE TABLE `wat_users` (
   `userPass` varchar(32) NOT NULL,
   `userStatus` int(1) NOT NULL DEFAULT 0,
   `userip` varchar(255) NOT NULL,
-  `lastconnect` datetime NOT NULL DEFAULT current_timestamp()
+  `lastconnect` datetime NOT NULL DEFAULT current_timestamp(),
+  `token` varchar(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `wat_users` (`user_id`, `userEmail`, `userPass`, `userStatus`, `userip`, `lastconnect`) VALUES
-(1, 'patobeur41@gmail.com', 'f71dbe52628a3f83a77ab494817525c6', 1, '', '0000-00-00 00:00:00');
+--
+-- Déchargement des données de la table `wat_users`
+-- password toto = f71dbe52628a3f83a77ab494817525c6
+--
 
+INSERT INTO `wat_users` (`user_id`, `userEmail`, `userPass`, `userStatus`, `userip`, `lastconnect`, `token`) VALUES
+(1, 'watamap@watamap.com', 'f71dbe52628a3f83a77ab494817525c6', 1, '127.0.0.1', '2021-04-18 22:03:35', '8ea1dd19e447eb9d09eb55b3e4f70f4e');
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `wat_clients`
+--
 ALTER TABLE `wat_clients`
   ADD PRIMARY KEY (`client_id`);
 
+--
+-- Index pour la table `wat_items`
+--
 ALTER TABLE `wat_items`
   ADD PRIMARY KEY (`item_id`);
 
+--
+-- Index pour la table `wat_itemtypes`
+--
 ALTER TABLE `wat_itemtypes`
   ADD PRIMARY KEY (`itemtype_id`);
 
+--
+-- Index pour la table `wat_levels`
+--
 ALTER TABLE `wat_levels`
   ADD PRIMARY KEY (`level_id`);
 
+--
+-- Index pour la table `wat_maps`
+--
 ALTER TABLE `wat_maps`
   ADD PRIMARY KEY (`map_id`);
 
+--
+-- Index pour la table `wat_users`
+--
 ALTER TABLE `wat_users`
   ADD PRIMARY KEY (`user_id`);
 
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `wat_clients`
+--
 ALTER TABLE `wat_clients`
   MODIFY `client_id` int(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
+--
+-- AUTO_INCREMENT pour la table `wat_items`
+--
 ALTER TABLE `wat_items`
   MODIFY `item_id` int(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
+--
+-- AUTO_INCREMENT pour la table `wat_itemtypes`
+--
 ALTER TABLE `wat_itemtypes`
   MODIFY `itemtype_id` int(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
+--
+-- AUTO_INCREMENT pour la table `wat_levels`
+--
 ALTER TABLE `wat_levels`
   MODIFY `level_id` int(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
+--
+-- AUTO_INCREMENT pour la table `wat_maps`
+--
 ALTER TABLE `wat_maps`
   MODIFY `map_id` int(4) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
+--
+-- AUTO_INCREMENT pour la table `wat_users`
+--
 ALTER TABLE `wat_users`
   MODIFY `user_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
