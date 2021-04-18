@@ -1,9 +1,11 @@
 # watamap
+
 Exploring tech !  
-Js: sessionStorage & localStorage
-Php: as usual
-html/css: ajax injection
-Sql ihm : 3d read acces with three.js
+
+- Js: sessionStorage & localStorage
+- Php: as usual
+- html/css: ajax injection
+- Sql ihm : 3d read acces with three.js
 
 So far so good ! 
 
