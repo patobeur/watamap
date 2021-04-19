@@ -41,7 +41,9 @@ function getJsonConfigThree(jsonfile) {
         console.log(WataConfThree);
 
         if (WataConfThree.scene) {
-            mountScene();
+            console.log('Scene three');
+            addNewcss([{ "url": "assets/css/scene.css", "id": "scene-css" }]);
+            addscriptstobottom([{ "url": "api_js/scene.js", "id": "scene-js" }]);
         } else {
             console.log('erreur de config Three !');
         }
@@ -54,7 +56,7 @@ function stepCheck() {
         (sessionStorage.WuserEmail && sessionStorage.WuserEmail != '') &&
         (WataConf.Appy)) {
         console.log("Log Ok et Config Ok");
-        getJsonConfigThree(appRoot + 'api_js/json/config-three.json');
+        mountScene();
     } else {
         console.log("not logged -> mounting loging form");
         mountLogging();
@@ -63,12 +65,7 @@ function stepCheck() {
 
 
 function mountScene() {
-    if (sessionStorage.Wtoken) {
-        console.log('Scene three');
-        addNewcss([{ "url": "assets/css/scene.css", "id": "scene-css" }]);
-
-        addscriptstobottom([{ "url": "api_js/scene.js", "id": "scene-js" }]);
-    }
+    getJsonConfigThree(appRoot + 'api_js/json/config-three.json');
 }
 
 function mountLogging() {
