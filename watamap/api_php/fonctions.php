@@ -52,36 +52,36 @@
 				print('</pre>');
 		}
 	}
-	function print_airZ($tab = array(), $bloc = "",$tmp='', $strong = false, $niveau = 0) {
-		$bloc = !empty($bloc) ? $bloc : '';
-		if(is_object($tab)) {$tab = get_object_vars($tab);}	
-		if($niveau != 0) {$bloc .= "<br/>";}	
-		foreach($tab as $key => $value) {
-			if($strong === true) {
-					$bloc .= str_repeat("&nbsp;", $niveau * 4)."<strong>".$key."</strong> => ";
-			} else {
-				$bloc .= str_repeat("&nbsp;", $niveau * 4).$key." => ";
-			}
-			if(is_array($value) || is_object($value)) {
-				$tmp = $key;
-				$bloc = print_airZ($value, $bloc,$tmp, $strong, $niveau + 1);
-				continue;
-			}
-			$bloc .= ($tmp === 'errors' ? '<span style="color:red">' : '') . $value. ($tmp === 'errors' ? '</span>' : '') . "<br/>";
-		}
-		return $bloc;
-	}
-	// FILES TOOLS --------------------------------------------------------------
-	function requireonce($fileandpath){
-		if (file_exists($fileandpath)){
-			return require_once($fileandpath);
-		}
-	}
-	function includeonce($fileandpath){
-		if (file_exists($fileandpath)){
-			include_once($fileandpath);
-		}
-	}
+	// function print_airZ($tab = array(), $bloc = "",$tmp='', $strong = false, $niveau = 0) {
+	// 	$bloc = !empty($bloc) ? $bloc : '';
+	// 	if(is_object($tab)) {$tab = get_object_vars($tab);}	
+	// 	if($niveau != 0) {$bloc .= "<br/>";}	
+	// 	foreach($tab as $key => $value) {
+	// 		if($strong === true) {
+	// 				$bloc .= str_repeat("&nbsp;", $niveau * 4)."<strong>".$key."</strong> => ";
+	// 		} else {
+	// 			$bloc .= str_repeat("&nbsp;", $niveau * 4).$key." => ";
+	// 		}
+	// 		if(is_array($value) || is_object($value)) {
+	// 			$tmp = $key;
+	// 			$bloc = print_airZ($value, $bloc,$tmp, $strong, $niveau + 1);
+	// 			continue;
+	// 		}
+	// 		$bloc .= ($tmp === 'errors' ? '<span style="color:red">' : '') . $value. ($tmp === 'errors' ? '</span>' : '') . "<br/>";
+	// 	}
+	// 	return $bloc;
+	// }
+	// // FILES TOOLS --------------------------------------------------------------
+	// function requireonce($fileandpath){
+	// 	if (file_exists($fileandpath)){
+	// 		return require_once($fileandpath);
+	// 	}
+	// }
+	// function includeonce($fileandpath){
+	// 	if (file_exists($fileandpath)){
+	// 		include_once($fileandpath);
+	// 	}
+	// }
 	function get_Ip(){
 			if(!empty($_SERVER['HTTP_CLIENT_IP'])){
 					//ip from share internet

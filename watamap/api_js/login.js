@@ -39,7 +39,7 @@ function manageloginpasswordform() {
 
     // pas plus de test de sécu pour l'instant
     if (logok) {
-        getJsonDatas({ action: 'startActionLoggin', login: datlogin, password: datpassword })
+        getJsonRouter({ action: 'startActionLoggin', login: datlogin, password: datpassword })
     } else {
         console.log("manque d'info")
     }

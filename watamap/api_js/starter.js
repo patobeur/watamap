@@ -1,74 +1,94 @@
 "use strict";
-if (localStorage.WTag && localStorage.WTag >= 0) { localStorage.WTag++ } else { localStorage.WTag = 0 }
-if (localStorage.WStep) { delete localStorage.WStep }
-let appRoot = "watamap/"
-let curV = "?v=" + localStorage.WTag + "_" + new Date().getSeconds()
-let WataConf = []
+if (localStorage.WTag && localStorage.WTag >= 0) { localStorage.WTag++ } else { localStorage.WTag = 0 };
+if (localStorage.WStep) { delete localStorage.WStep };
+
+let appRoot = "watamap/";
+let curV = "?v=" + localStorage.WTag + "_" + new Date().getSeconds();
+let WataConf = Object;
+let WataConfThree = Object;
 
 window.onload = function WatamapStarter(e) {
     // get config json file before anything else
-    // console.log(sessionStorage.WtF)
     if (!WataConf.Appy) {
         console.log('demande config A');
-        getJsonConfig(appRoot + "api_js/watamap.json");
+        getJsonConfig(appRoot + "api_js/json/watamap.json");
     } else {
-        console.log('Config A deja reçus !')
-        stepCheck()
+        console.log('Config A deja reçus !');
+        stepCheck();
     }
 }
 
 function getJsonConfig(jsonfile) {
     lectureJsonAjax(jsonfile + curV, function setWataConf(textjson) {
-        console.log('Config A reçus !')
-        WataConf = JSON.parse(textjson)
-        sessionStorage.WCont
+        console.log('Config A reçus !');
+        WataConf = JSON.parse(textjson);
+        // console.log(WataConf);
+        sessionStorage.WCont;
         if (WataConf.Appy) {
-            stepCheck()
-        } else { console.log('erreur de config !') }
+            // check conf and profil for proccesing to loggin or scene
+            stepCheck();
+        } else {
+            console.log('erreur de config !');
+            // ROAD END
+        }
     });
 }
 
 function getJsonConfigThree(jsonfile) {
-    lectureJsonAjax(jsonfile + curV, function setWataConf(textjson) {
-        console.log('Config reçus !')
-        WataConf = JSON.parse(textjson)
-        if (WataConf) {
-            console.log('Fichier Config OK , (WataConf=config.json)')
-            stepCheck()
-        } else { console.log('erreur de config !') }
+    lectureJsonAjax(jsonfile + curV, function setWataConfThree(textjson) {
+        console.log('Config Three reçus !');
+        WataConfThree = JSON.parse(textjson);
+        console.log(WataConfThree);
+
+        if (WataConfThree.scene) {
+            mountScene();
+        } else {
+            console.log('erreur de config Three !');
+        }
     });
 }
 
 function stepCheck() {
-    addNewcss([{ "url": "assets/css/watamap.css", "id": "watamap-css" }]);
+    // check conf and profil for proccesing to loggin or scene
     if ((sessionStorage.Wtoken && sessionStorage.Wtoken != '') &&
         (sessionStorage.WuserEmail && sessionStorage.WuserEmail != '') &&
-        (WataConf.Appy)
-        // (sessionStorage.WataConf && sessionStorage.WataConf != '') &&
-    ) {
-        console.log("Log Ok et Config Ok")
-        mountScene()
-
+        (WataConf.Appy)) {
+        console.log("Log Ok et Config Ok");
+        getJsonConfigThree(appRoot + 'api_js/json/config-three.json');
     } else {
-        console.log("Log Ko")
-        mountLogging()
+        console.log("not logged -> mounting loging form");
+        mountLogging();
     }
 }
 
 
 function mountScene() {
     if (sessionStorage.Wtoken) {
-        console.log('Scene three')
-        addscriptstobottom([{ "url": "api_js/scene.js", "id": "login-js" }])
+        console.log('Scene three');
+        addNewcss([{ "url": "assets/css/scene.css", "id": "scene-css" }]);
+
+        addscriptstobottom([{ "url": "api_js/scene.js", "id": "scene-js" }]);
     }
 }
 
 function mountLogging() {
-    addscriptstobottom([{ "url": "api_js/login.js", "id": "login-js" }])
+    addscriptstobody('api_js/login.js', 'login-js')
+        .then(() => {
+            addNewcss([{ "url": "assets/css/login.css", "id": "login-css" }]);
+            console.log('script login mounted')
+        })
+        .catch(() => {
+            console.error('Script loading failed! Handle this error');
+            // ROAD END
+        });
+
+
+    // addscriptstobottom([{ "url": "api_js/login.js", "id": "login-js" }])
 }
 
 function unmountLogging() {
     document.getElementById(WataConf.ConnectingDivId).remove()
+    document.getElementById('login-css').remove()
     document.getElementById('login-js').remove()
     mountScene()
 }
@@ -81,9 +101,8 @@ function startActionLoggin(profildatas) {
             console.log('mail stocké !')
             console.log(JSON.parse(profildatas[1])[0])
             WataConf.DefLoging.login = document.getElementById('datalogin').value
-                // localStorage.Email = document.getElementById('datalogin').value
-            localStorage.WUser = JSON.parse(profildatas[1])[0]['userEmail']
-            localStorage.WToken = JSON.parse(profildatas[1])[0]['token']
+                // localStorage.WUser = JSON.parse(profildatas[1])[0]['userEmail']
+                // localStorage.WToken = JSON.parse(profildatas[1])[0]['token']
             addsessionStorage(profildatas)
                 // addsessionStorage(WataConf)
             unmountLogging()
@@ -115,43 +134,6 @@ function addsessionStorage(datas) {
 // <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato&display=swap">
 
 
-function addScriptBy(getElementsBytype, targetname, element) {
-    var script = document.createElement('script')
-    script.type = 'text/javascript'
-    script.src = appRoot + element.url + curV
-    script.id = element.id
-    if (!document.getElementById(element.id)) {
-        if (getElementsBytype === 'ByTagName') { document.getElementsByTagName(targetname)[0].appendChild(script) } // multiple possible !!!!!!
-        else if (getElementsBytype === 'ById') { document.getElementById(targetname).appendChild(script) } // only the One Id
-    }
-}
-
-function addscriptstoheader(scripts = false) {
-    for (let i = 0; i < scripts.length; i++) {
-        if (!document.getElementById(scripts[i].id)) {
-            addScriptBy('ByTagName', 'head', scripts[i])
-        }
-    } // Only Array
-    // scripts.array.forEach(element => {addScriptTo('head', element)});        // Only Objects
-}
-
-// function addthisscriptstoheader() {
-//     let scripts = WataConf.HeaderJs
-//     for (let i = 0; i < scripts.length; i++) {
-//         if (!document.getElementById(scripts[i].id)) {
-//             addScriptBy('ByTagName', 'head', scripts[i])
-//         }
-//     } // Only Array
-//     // scripts.array.forEach(element => {addScriptTo('head', element)});        // Only Objects
-// }
-
-function addscriptstobottom(scripts = false) {
-    for (let i = 0; i < scripts.length; i++) {
-        if (!document.getElementById(scripts[i].id)) {
-            addScriptBy('ByTagName', 'body', scripts[i])
-        }
-    }
-}
 
 function addNewcss(csss = false) {
     for (let i = 0; i < csss.length; i++) {
@@ -244,7 +226,7 @@ function clog(datas = false) {
     }
 }
 
-function getJsonDatas(query) {
+function getJsonRouter(query) {
     if (query) {
         getJson(
             appRoot + WataConf.Appy.apiUrl,
@@ -254,6 +236,9 @@ function getJsonDatas(query) {
                 // console.log('Paquet reçus pour: "' + query['action'] + '" de type "' + typeof datas) + '"'
                 // console.log(datas)
                 switch (query['action']) {
+                    case 'getBoardDatas':
+                        getBoardDatas(ResponsetoJson(datas))
+                        break;
                     case 'getMapListeByClientId':
                         getMapListeByClientId(ResponsetoJson(datas));
                         break;
@@ -267,11 +252,11 @@ function getJsonDatas(query) {
                         addComputersToScene(ResponsetoJson(datas));
                         break;
                     case 'startActionLoggin':
-                        console.log(datas)
                         startActionLoggin(ResponsetoJson(datas))
                         break;
                     default:
-                        console.log(`Sorry, mais nous n'avons plus de  ${query['action']}.`);
+                        console.log(`Dsl, mais nous n'avons plus de "${query['action']}" en stock .`);
+                        break;
                 }
             });
     }
@@ -312,3 +297,51 @@ function getJson(url, para, success) {
 // var decoded = decodeString(encoded);
 // var script = '<script type="text/javascript">' + decoded + '</script>';
 // $('head').append(script);
+
+
+
+
+// definition
+function addscriptstobody(scriptUrl, identity) {
+    //https://stackoverflow.com/questions/14644558/call-javascript-function-after-script-is-loaded/42556752
+    const script = document.createElement('script');
+    script.src = appRoot + scriptUrl + curV
+    script.id = identity
+    document.body.appendChild(script);
+    return new Promise((res, rej) => {
+        script.onload = function() {
+            res();
+        }
+        script.onerror = function() {
+            rej();
+        }
+    });
+}
+
+function addScriptBy(getElementsBytype, targetname, element) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript'
+    script.src = appRoot + element.url + curV
+    script.id = element.id
+    if (!document.getElementById(element.id)) {
+        if (getElementsBytype === 'ByTagName') { document.getElementsByTagName(targetname)[0].appendChild(script) } // multiple possible !!!!!!
+        else if (getElementsBytype === 'ById') { document.getElementById(targetname).appendChild(script) } // only the One Id
+    }
+}
+
+function addscriptstoheader(scripts = false) {
+    for (let i = 0; i < scripts.length; i++) {
+        if (!document.getElementById(scripts[i].id)) {
+            addScriptBy('ByTagName', 'head', scripts[i])
+        }
+    } // Only Array
+    // scripts.array.forEach(element => {addScriptTo('head', element)});        // Only Objects
+}
+
+function addscriptstobottom(scripts = false) {
+    for (let i = 0; i < scripts.length; i++) {
+        if (!document.getElementById(scripts[i].id)) {
+            addScriptBy('ByTagName', 'body', scripts[i])
+        }
+    }
+}

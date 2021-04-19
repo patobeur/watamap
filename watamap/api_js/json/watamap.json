@@ -9,7 +9,7 @@
         "apiUrl": "api_php/index.php"
     },
     "DefLoging": {
-        "login": "watamap@watamap.com"
+        "login": ""
     },
     "FConsole": {
         "active": true,

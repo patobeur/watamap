@@ -1,8 +1,3 @@
-@font-face {
-    font-family: "TitilliumWeb";
-    src: url("vendor/googlefonts/TitilliumWeb-Black.ttf") format("ttf"), url("/vendor/googlefonts/TitilliumWeb-Black.ttf") format("ttf");
-}
-
 * {
     font-family: "Lato";
 }
@@ -44,13 +39,6 @@
 #actionscheck * {
     margin: 0;
     padding: 0;
-}
-
-canvas {
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
 }
 
 #wataform {

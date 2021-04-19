@@ -1,0 +1,130 @@
+{
+    "FConsole": {
+        "active": true,
+        "count": 0
+    },
+    "Config": [{
+        "client_id": 1,
+        "map_id": 1,
+        "accred": 0
+    }],
+    "Threejs": [
+        { "url": "vendor/three.min.js", "id": "three-js" },
+        { "url": "vendor/GLTFLoader.js", "id": "three-gltfloader" },
+        { "url": "vendor/OrbitControls.js", "id": "three-orbitcontrols" },
+        { "url": "vendor/threex.domevents.js", "id": "threex.domevents" },
+        { "url": "vendor/threex.linkify.js", "id": "threex.linkify" }
+    ],
+    "SceneJs": [
+        { "url": "api_js/ajax.js", "id": "ajax-js" },
+        { "url": "scenejs/definitions.js", "id": "definitions-js" },
+        { "url": "scenejs/scene.js", "id": "scene-js" },
+        { "url": "scenejs/main.js", "id": "main-js" }
+    ],
+    "scene": {
+        "controls": {
+            "active": true,
+            "enablezoom": true,
+            "enablerotate": true,
+            "screenspacepanning": false
+        },
+        "canvas": {
+            "top": 0,
+            "left": 0,
+            "width": "100%",
+            "height": "100%"
+        },
+        "axehelper": {
+            "active": true,
+            "length": 2,
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "nameid": "patohelper"
+        },
+        "ambientlight": {
+            "color": "0x404040",
+            "data": 2,
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "nameid": "patolight"
+        },
+        "camera": {
+            "cam_fov": 40,
+            "cam_fov_min": 3,
+            "cam_fov_max": 500,
+            "cam_aspect": 0,
+            "cam_ratioxyz": 0,
+            "nameid": "patocamera",
+            "x": 0,
+            "y": 5,
+            "z": 20
+        },
+        "target": {
+            "parentid": "watamap",
+            "nameid": "map3d",
+            "width": "100%",
+            "height": "100%",
+            "background-color": "none",
+            "z-index": 1000
+        },
+        "controllersactive": true,
+        "xcorrect": 0.5,
+        "materials": [
+            "./assets/img/patobeur.png",
+            "./assets/img/un.png",
+            "./assets/img/deux.png",
+            "./assets/img/trois.png",
+            "./assets/img/patobeurbleu.png",
+            "./assets/img/patobeurjaune.png",
+            "./assets/img/computers.png"
+        ],
+        "floors": [{
+            "nameid": "patobeur",
+            "src": "assets/img/patobeur.png",
+            "w": 250,
+            "h": 250,
+            "repx": 1,
+            "repy": 1,
+            "decx": 0,
+            "decy": 0
+        }, {
+            "nameid": "material_1",
+            "src": "assets/img/material_1.jpg",
+            "x": 369,
+            "h": 192,
+            "repx": 1,
+            "repy": 1,
+            "decx": 0,
+            "decy": 0
+        }, {
+            "nameid": "material_2",
+            "src": "assets/img/material_2.jpg",
+            "w": 25,
+            "h": 25,
+            "repx": 1,
+            "repy": 1,
+            "decx": 2.74,
+            "decy": 5.69
+        }, {
+            "nameid": "patobeurbleu",
+            "src": "assets/img/patobeurbleu.png",
+            "w": 50,
+            "h": 50,
+            "repx": 1,
+            "repy": 1,
+            "decx": 50,
+            "decy": 70
+        }, {
+            "nameid": "carre",
+            "src": "assets/img/carre.png",
+            "w": 14,
+            "h": 14,
+            "repx": 14,
+            "repy": 14,
+            "decx": 0,
+            "decy": 0
+        }]
+    }
+}

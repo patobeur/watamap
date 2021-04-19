@@ -35,11 +35,11 @@ class ImportDatabase {
 		],
 		2 => [
 			'DBhost' => "127.0.0.1",
-			'DBname' => "another",
+			'DBname' => "anotherone",
 			'DBuser' => "root",
 			'DBpass' => "",
 			'DBcharset' => 'utf8mb4',
-			'DBtabs' => ['pat_pages','pat_membres','pat_utilisateurs','pat_retards'],
+			'DBtabs' => ['pat_pages','pat_membres','pat_retards'],
 			'getpos' => true,
 		],
 	];
@@ -53,9 +53,9 @@ class ImportDatabase {
 		// print_air($_SESSION['token'],'token' );
 		self::is_GETPOST();
 	}
-	public static function get_ImportActive(){
-		return self::$_ImportActive;
-	}
+	// public static function get_ImportActive(){
+	// 	return self::$_ImportActive;
+	// }
 	public static function checkbddexiste($nDB,$nTD){
 		if ($nDB >= 0 && $nDB < count(self::$_sqlDatas)) {
 			if ($nTD >= 0 && $nTD < count(self::$_sqlDatas[$nDB]['DBtabs'])) {
@@ -88,6 +88,14 @@ class ImportDatabase {
 			self::$_sqlrequest = "SELECT ".$besoins." FROM wat_clients"
 			." WHERE wat_clients.client_id = :client AND userStatus = 1";
 			
+		}
+		elseif ($aaction==="getBoardDatas"){
+			$besoins = "token";
+			self::$_choixBdd = 0;
+			$table = self::$_sqlDatas[self::$_choixBdd]['DBtabs'][2]; // <---- alway 2 for user table
+			self::$_sqlBind = ['token'=>self::$_postedDatas->token];
+			self::$_sqlrequest = "SELECT ".$besoins." FROM ".$table
+			." WHERE ".$table.".token = :token";
 		}
 		elseif ($aaction==="startActionLoggin"){
 			$besoins = "userip,userEmail,userStatus,lastconnect";
@@ -192,9 +200,14 @@ class ImportDatabase {
 				if (count($allRows) > 0) {
 					if(self::$_postedDatas){
 						if(self::$_postedDatas->action==="startActionLoggin"){
-							$allRows[0]['token'] = $_SESSION['Wtoken'];
 							self::updateUserAccount($allRows[0]);
 						}
+						else if(self::$_postedDatas->action==="getBoardDatas"){
+							$allRows[0]['token2'] = $_SESSION['Wtoken'];
+							$allRows[0]['paquet'] = ['fffff','gggg'];
+							// self::updateUserAccount($allRows[0]);
+						}
+						$allRows[0]['token'] = $_SESSION['Wtoken'];
 						return [
 							true,
 							json_encode($allRows),
