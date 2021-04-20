@@ -40,7 +40,7 @@ class ImportDatabase {
 			'DBpass' => "",
 			'DBcharset' => 'utf8mb4',
 			'DBtabs' => ['pat_pages','pat_membres','pat_retards'],
-			'getpos' => true,
+			'getpos' => false,
 		],
 	];
 	// CHOIX LECTURE BDD par défaut	$_sqlDatas[idBdd] et $_sqlDatas[idBdd]['DBtabs'][idTab]
@@ -49,6 +49,30 @@ class ImportDatabase {
 	private static $_postedDatas = false;
 	private static $_methode = '';
 
+	//EN TEST
+	public static $_menuDashBoard = [
+		"ClearCash" => [
+			"content" => 'Logs',
+			"title" => 'Activer/Désactiver les logs',
+			"href" => false,
+			"target" => false,
+			"onclick" => "setLog();"
+		],
+		"Action_B" => [
+			"content" => 'ClearCash',
+			"title" => 'Effacer les données stockées en mémoire !',
+			"href" => false,
+			"target" => false,
+			"onclick" => "unSetMePlease();"
+		],
+		"AddCube" => [
+			"content" => 'AddCube',
+			"title" => 'AddCube',
+			"href" => false,
+			"target" => false,
+			"onclick" => "addCube();"
+		]
+	];
 	public function __construct(){
 		// print_air($_SESSION['token'],'token' );
 		self::is_GETPOST();
@@ -89,7 +113,7 @@ class ImportDatabase {
 			." WHERE wat_clients.client_id = :client AND userStatus = 1";
 			
 		}
-		elseif ($aaction==="getBoardDatas"){
+		elseif ($aaction==="getHtmlBoardDatas"){
 			$besoins = "token";
 			self::$_choixBdd = 0;
 			$table = self::$_sqlDatas[self::$_choixBdd]['DBtabs'][2]; // <---- alway 2 for user table
@@ -98,7 +122,7 @@ class ImportDatabase {
 			." WHERE ".$table.".token = :token";
 		}
 		elseif ($aaction==="startActionLoggin"){
-			$besoins = "userip,userEmail,userStatus,lastconnect";
+			$besoins = "userip,userEmail,userStatus,lastconnect,x,y,z";
 			self::$_choixBdd = 0;
 			$table = self::$_sqlDatas[self::$_choixBdd]['DBtabs'][2]; // <---- alway 2 for user table
 			self::$_sqlBind = ['email'=>self::$_postedDatas->login];
@@ -197,15 +221,13 @@ class ImportDatabase {
 				}
 				$firstImp->execute();
 				$allRows = $firstImp->fetchall(PDO::FETCH_ASSOC);
-				if (count($allRows) > 0) {
+				if ($allRows && count($allRows) > 0) {
 					if(self::$_postedDatas){
 						if(self::$_postedDatas->action==="startActionLoggin"){
 							self::updateUserAccount($allRows[0]);
 						}
-						else if(self::$_postedDatas->action==="getBoardDatas"){
-							$allRows[0]['token2'] = $_SESSION['Wtoken'];
-							$allRows[0]['paquet'] = ['fffff','gggg'];
-							// self::updateUserAccount($allRows[0]);
+						else if(self::$_postedDatas->action==="getHtmlBoardDatas"){
+							$allRows[0]['htmlitems'] = self::$_menuDashBoard;
 						}
 						$allRows[0]['token'] = $_SESSION['Wtoken'];
 						return [
@@ -214,11 +236,16 @@ class ImportDatabase {
 							$idBdd['getpos']
 						];
 					}
+					return [
+						false,
+						json_encode(['erreur'=>'Post ','demande'=>"http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",'post'=>$_POST['data']]),
+						$idBdd['getpos']
+					];
 				}
 				return [
 					false,
-					json_encode(['erreur'=>'bdd vide ','demande'=>"http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",'post'=>$_POST['data']]),
-					false
+					json_encode(['Reponse'=>'pas de datas ','demande'=>"http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]",'post'=>$_POST['data']]),
+					$idBdd['getpos']
 				];
 			}
 			catch(PDOException $e){

@@ -1,0 +1,36 @@
+{
+    "objects": {
+        "login": {
+            "txt": [
+                "Watamap",
+                "Pour voir les choses en 3D !"
+            ],
+            "placeholder": [
+                "Votre mail !",
+                "Votre mot de passe !",
+                "placeholder test"
+            ],
+            "but": [
+                ["Contact", "Contact", "Contact", "#"],
+                ["Github source", "Github source", "Github source", "#"]
+            ]
+        }
+    },
+    "material": {
+        "login": {
+            "txt": [
+                "Watamap",
+                "Pour voir les choses en 3D !"
+            ],
+            "placeholder": [
+                "Votre mail !",
+                "Votre mot de passe !",
+                "placeholder test"
+            ],
+            "but": [
+                ["Contact", "Contact", "Contact", "#"],
+                ["Github source", "Github source", "Github source", "#"]
+            ]
+        }
+    }
+}

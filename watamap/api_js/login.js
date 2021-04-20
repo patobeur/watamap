@@ -1,21 +1,21 @@
 "use strict";
-console.log("Login:" + WataConf.Appy.Name)
-    // displaying login form
-addDomElement('ElementByIdParent', WataConf.DomTargetId, 'div', WataConf.ConnectingDivId, false)
+if (Wlog) { console.log("Login:" + WataConf.Appy.Name); }
+// displaying login form
+addDomElement('ElementByIdParent', WataConf.DomTargetId, 'div', WataConf.ConnectingDivId, false);
 
-addDomElement('ElementById', WataConf.ConnectingDivId, 'div', 'wataform', false)
-addDomElement('ElementById', 'wataform', 'H1', 't1', [WataConf.Dico.login.txt[0]])
-addDomElement('ElementById', 'wataform', 'H2', 't2', [WataConf.Dico.login.txt[1]])
-addImputElement('input', "wataform", "datalogin", 'text', false, (sessionStorage.Email ? myStorage.Email : WataConf.DefLoging.login))
-addImputElement('input', "wataform", "datapassword", 'password', false, '')
-addImputElement('input', "wataform", "buttonlogin", 'button', false, 'Give a try !')
+addDomElement('ElementById', WataConf.ConnectingDivId, 'div', 'wataform', false);
+addDomElement('ElementById', 'wataform', 'H1', 't1', [WataConf.Dico.login.txt[0]]);
+addDomElement('ElementById', 'wataform', 'H2', 't2', [WataConf.Dico.login.txt[1]]);
+addImputElement('input', "wataform", "datalogin", 'text', false, (sessionStorage.Email ? myStorage.Email : WataConf.DefLoging.login));
+addImputElement('input', "wataform", "datapassword", 'password', false, '');
+addImputElement('input', "wataform", "buttonlogin", 'button', false, 'Give a try !');
 
 document.getElementById('buttonlogin').addEventListener('click', (e) => {
-    manageloginpasswordform()
+    manageloginpasswordform();
 })
 
-document.getElementById('datalogin').placeholder = WataConf.Dico.login.placeholder[0]
-document.getElementById('datapassword').placeholder = WataConf.Dico.login.placeholder[1]
+document.getElementById('datalogin').placeholder = WataConf.Dico.login.placeholder[0];
+document.getElementById('datapassword').placeholder = WataConf.Dico.login.placeholder[1];
 
 document.getElementById('buttonlogin').addEventListener('onblur', (e) => {
     e.target.placeholder = WataConf.Dico.login.placeholder[0]
@@ -39,8 +39,8 @@ function manageloginpasswordform() {
 
     // pas plus de test de sécu pour l'instant
     if (logok) {
-        getJsonRouter({ action: 'startActionLoggin', login: datlogin, password: datpassword })
+        getActionRouter({ action: 'startActionLoggin', login: datlogin, password: datpassword })
     } else {
-        console.log("manque d'info")
+        if (Wlog) console.log("manque d'info")
     }
 }
