@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.0
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : dim. 18 avr. 2021 à 22:11
--- Version du serveur :  10.4.18-MariaDB
--- Version de PHP : 7.3.27
+-- Généré le : mer. 28 avr. 2021 à 12:13
+-- Version du serveur :  10.4.17-MariaDB
+-- Version de PHP : 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -38,7 +38,7 @@ CREATE TABLE `wat_clients` (
 --
 
 INSERT INTO `wat_clients` (`client_id`, `client_name`, `id_client`) VALUES
-(1, 'Mesland', NULL),
+(1, 'Mesland', 1),
 (2, 'IMC', NULL);
 
 -- --------------------------------------------------------
@@ -146,16 +146,18 @@ CREATE TABLE `wat_users` (
   `userStatus` int(1) NOT NULL DEFAULT 0,
   `userip` varchar(255) NOT NULL,
   `lastconnect` datetime NOT NULL DEFAULT current_timestamp(),
-  `token` varchar(32) DEFAULT NULL
+  `token` varchar(32) DEFAULT NULL,
+  `x` int(3) NOT NULL,
+  `y` int(3) NOT NULL,
+  `z` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Déchargement des données de la table `wat_users`
--- password toto = f71dbe52628a3f83a77ab494817525c6
 --
 
-INSERT INTO `wat_users` (`user_id`, `userEmail`, `userPass`, `userStatus`, `userip`, `lastconnect`, `token`) VALUES
-(1, 'watamap@watamap.com', 'f71dbe52628a3f83a77ab494817525c6', 1, '127.0.0.1', '2021-04-18 22:03:35', '8ea1dd19e447eb9d09eb55b3e4f70f4e');
+INSERT INTO `wat_users` (`user_id`, `userEmail`, `userPass`, `userStatus`, `userip`, `lastconnect`, `token`, `x`, `y`, `z`) VALUES
+(1, 'patobeur41@gmail.com', 'f71dbe52628a3f83a77ab494817525c6', 1, '127.0.0.1', '2021-04-28 12:12:46', '76fd889fece9827525c57559bb549ea5', 0, 0, 0);
 
 --
 -- Index pour les tables déchargées

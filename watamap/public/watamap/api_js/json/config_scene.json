@@ -11,7 +11,7 @@
     "scene": {
         "controls": {
             "active": true,
-            "enablezoom": true,
+            "enablezoom": false,
             "enablerotate": true,
             "screenspacepanning": false
         },

@@ -35,9 +35,10 @@ window.onload = function WatamapStarter(e) {
 }
 
 function getActionRouter(query) {
+    console.log(WataConf.Appy.apiUrl);
     if (query) {
         getJson(
-            appRoot + WataConf.Appy.apiUrl,
+            WataConf.Appy.apiUrl,
             JSON.stringify(query),
             (datas) => {
                 // if(Wlog) console.log('datas.length reçus :' + datas.length + ' pour: "' + query['action'] + '" de type "' + typeof datas)

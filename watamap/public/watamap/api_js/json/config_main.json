@@ -6,7 +6,7 @@
         "Name": "Watamap",
         "Version": 0.1,
         "Items": "login",
-        "apiUrl": "api_php/index.php"
+        "apiUrl": "watamap_api_php/index.php"
     },
     "DefLoging": {
         "login": ""

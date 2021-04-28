@@ -133,7 +133,7 @@ class ImportDatabase {
 			$besoins = "*";
 			self::$_choixBdd = 0;
 			self::$_sqlBind = ['level'=>self::$_postedDatas->level,'map'=>self::$_postedDatas->map];
-			self::$_sqlrequest = "SELECT ".$besoins." FROM wat_items"
+			self::$_sqlrequest = "SELECT * FROM wat_items"
 			." LEFT JOIN wat_clients ON wat_clients.client_id = wat_items.id_client"
 			." LEFT JOIN wat_maps ON wat_maps.map_id = :map"
 			." LEFT JOIN wat_levels ON wat_levels.level_id = :level";
@@ -221,6 +221,7 @@ class ImportDatabase {
 				}
 				$firstImp->execute();
 				$allRows = $firstImp->fetchall(PDO::FETCH_ASSOC);
+				
 				if ($allRows && count($allRows) > 0) {
 					if(self::$_postedDatas){
 						if(self::$_postedDatas->action==="startActionLoggin"){
@@ -261,6 +262,9 @@ class ImportDatabase {
 			switch ($e) {
 				case "1045":
 					$string = $server.' est refusée, droits insuffisants (28000) !';
+				break;
+				case "42S22":
+					$string = $server.' la colonne demande est absente (42522) !';
 				break;
 				case "1049":
 					$string = $server.' donne un nom de base inexistante (42000): Importation impossible !';

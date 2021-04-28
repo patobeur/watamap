@@ -1,6 +1,6 @@
 "use strict";
 if (Wlog) { console.log('Scene Mounting...'); }
-const apiUrl = "api/index.php";
+
 let tic = 0;
 let sec = 0;
 // if(Wlog) console.log('page : scene.js');
@@ -8,6 +8,8 @@ let sec = 0;
 let container
     // -- Objets de la scene
 let scene, camera, renderer, axesHelper, ambientlight, ScenePixelRatio = 30
+    // -- Objets test pour groupe camera 2 avec les données de la 1 afin de switcher quand c bon !
+let cameraDeux
     // LES TEXTURES des objets
 let cur_material = 0 // texture des cubes par default
 let def_floor = 4; // texture sol par défault
@@ -22,6 +24,7 @@ let raycaster = false,
 let controls;
 // 3dObjects
 let groupcube, groupMaps, groupcomputers, grouptest;
+let grpcameraDeux
 
 // scripts loading
 threeLoader();
@@ -43,7 +46,10 @@ function creatScene() {
     );
     // camera.position.set(0, 5, 20)
     camera.name = WataConfThree.scene.camera.nameid
-    scene.add(camera);
+    grpcameraDeux = new THREE.Group();
+    grpcameraDeux.add(camera);
+    // scene.add(camera);
+    scene.add(grpcameraDeux);
     // if(Wlog) console.log(camera.name + ' ok')
     // axehelper ajout d'un objet "axehelper" pour faciliter la vue
     // activable in json config-three.json
